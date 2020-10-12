@@ -127,14 +127,14 @@
   
 </div>
 
-<nav id="subNav">
+<div id="subNav">
     <!--<ul class="nav" id="subNavFacet">
     </ul>-->
-</nav>
+</div>
 
-    <!--<div class="container">    
+    <div class="container">    
 		<div class="row" id="etuCards" >
-    </div>-->
+    </div>
         
 <div class="modal fade" id="infosEtu" tabindex="-1" role="dialog" aria-labelledby="modalEtuTitle" aria-hidden="true">
     <div class="modal-dialog modal-full" role="document">
@@ -290,8 +290,6 @@ console.log(Object.values(vals));
              console.log(dataFacet[0].values);
              console.log(dataFacet[0].values[1]);
              console.log(dataFacet[1].values[0]);
-
-
             console.log(dataFacet[0]);
             
             /** Fonction qui retourne dans le tableau subNav, l'ensemble des réponses de la catégorie (String)dataDrop
@@ -324,8 +322,8 @@ console.log(Object.values(vals));
 
 
             
-            console.log(typeof(dataDoublons));
-            console.log(typeof(dataForm));
+            //console.log(dataDoublons);
+            //console.log(dataForm);
 
 
             /** 
@@ -376,22 +374,19 @@ console.log(Object.values(vals));
                 var subNavFacetContent = d3.select("#subNav")
                 .html(function(d) { return subNavhtml.replace(/subNavFacet/gi, "subNavFacet"+label);})
                 .select("ul")
-                .attr("class", "nav-pills collapse")
+                .attr("class", "navbar-expand-lg collapse")
                 .selectAll("li")
                 .data(subNavFacetContent)
                 .enter().append("li")
-                .attr('class', "nav-item")
-                .append("a")
                 .attr('class', "h3")
                 .attr('class',function(d,i){
                     console.log(i);
                     return i==0 ? "nav-link active" : "nav-link"
                 })
+                .append("button")
+                .attr("class", "btn btn-primary")
                 .attr("id", function(d,i){
                     return "subNavFacetContent" + label +i
-                })
-                .attr("href", function(d,i){
-                    return "#subNavFacetContent" + label +i
                 })
                 .text(d => d);
                 return subNavFacetContent;
@@ -400,6 +395,25 @@ console.log(Object.values(vals));
             var subNavParcours = subNavFacetContent(triTabParcours, "Parcours");
             //var subNavOrdinateur = subNavFacetContent(triTabOrdinateur, "Ordinateur");
 
+            //document.getElementById("subNavFacetContentParcours0").addEventListener("click", triFacet);
+            
+
+            function triFacet(data, prop) {
+                //console.log(label);
+                for(element in dataFacet) {
+                    //console.log(dataFacet[element].label);
+                    for (element2 in dataFacet[element].values) {
+                        if (dataFacet[element].values[element2].prop == prop) {
+                            console.log(dataFacet[element].values[element2].ids);
+                            data.push(dataFacet[element].values[element2].ids);
+                        }
+                    }
+                }
+            }
+
+            var triFacetData = [];
+            triFacet(triFacetData, "M1 CEN");
+            console.log(triFacetData);
             
             //ajoute les content de filtres
             let html = '<div class="container"><div class="row">';
